@@ -1,41 +1,64 @@
-#Import Data
 import os
 import csv
 
-# Open and read csv
-election_data_csv = os.path.join("..", "Resources", "election_data.csv")
+election_data = os.path.join("/Users/jayp/Downloads/CU-VIRT-DATA-PT-02-2024-U-LOLC/03-Python/Starter_Code/PyPoll/Resources/election_data.csv")
 
-#Output of csv file into text
-election_data_csv_path = "output.text"
+candidates_names = []
 
-#Set Variables
-Total_Votes = ()
-Charles_Casper_Stockham = ()
-Diana_DeGette = ()
-Raymon_Anthony_Doane = ()
-Winner_Candidate = ()
-Percentage_candidates = ()
-Total_Votes_Cast = ()
+number_of_votes = []
 
-with open(election_data) as csvfile:
-    csvreader = (election_data)
+percentage_of_votes = []
 
-Print ("Election Results")
+total_number_of_votes = 0
 
-Total_Votes = "County"
-Print(Total_Votes)
+with open(election_data, newline = "") as csvfile:
+    csvreader = csv.reader(csvfile, delimeter = ",")
+    csv_header = next(csvreader)
 
-Charles_Casper_Stockham = (Total_Votes - County)
+    for row in csvreader:
+        total_number_of_votes += 1
 
-Diana_DeGette = (Total_Votes - County)
+        if row[2] not in candidates_names:
+            candidates_names.append(row[2])
+            index = candidates_names.index(row[2])
+            number_of_votes.append(1)
+        else:
+            index = candidates_names.index(row[2])
+            number_of_votes[index] += 1
 
-Raymon_Anthony_Doane = (Total_Votes - County)
+    for votes in number_of_votes:
+        percentage = (votes/total_number_of_votes) * 100
+        percentage = round(percentage)
+        percentage = "%.3f%%" % percentage
+        percentage_of_votes.append(percentage)
 
-Percentage_candidates = ("County") / (Total_Votes) * 100
+    winneer = max(number_of_votes)
+    index = number_of_votes.index(winner)
+    winner_candidate = candidates_names[index]
 
-Winner_Candidate = (Greatest_percentage + Greatest_Votes)
+print("Election Results")
+print("--------------------------")
+print(f"Total Votes: {str(total_number_of_votes)}")
+print("--------------------------")
+
+for i in range(len(candidates_names)):
+print(f"{candidates_names[i]}: {str(percentage_of_votes[i])} ({str(total_number_of_votes[i])})")
+print("--------------------------")
+print(f"Winner: {winner_candidate}")
+print("--------------------------")
 
 
+output = open("output.txt", "w")
+line1 = "Election Results"
+line2 = "--------------------------"
+line3 = str(f"Total Votes: {str(total_number_of_votes)}")
+line4 = str("--------------------------")
+output.write('{}\n{}\n{}\n{}\n'.format(line1, line2, line3, line4))
 
-
-
+for i in range(len(candidates_names)):
+    line = str(f"{candidates_names[i]}: {str(percentage_of_votes[i])} ({str(total_number_of_votes[i])})")
+    output.write('{}\n'.format(line))
+line5 = "--------------------------"
+line6 = str(f"Winner: {winner_candidate}")
+line7 = "--------------------------"
+output.write('{}\n{}\n{}\n'.format(line5, line6, line7))
